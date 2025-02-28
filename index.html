@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF 리스트 뷰어</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Tailwind 다크 모드 설정
+      tailwind.config = {
+        darkMode: 'class',
+      };
+    </script>
+  </head>
+  <body
+    class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-6 transition-colors"
+  >
+    <!-- 다크 모드 토글 버튼 -->
+    <button
+      id="dark-mode-toggle"
+      class="fixed bottom-6 right-6 bg-gray-800 dark:bg-gray-200 text-white dark:text-black p-3 rounded-full shadow-lg hover:scale-110 transition"
+    >
+      🌙
+    </button>
+
+    <div
+      class="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-6 shadow-lg rounded-lg"
+    >
+      <h1 class="text-2xl font-bold text-center mb-4">📂 PDF 리스트</h1>
+      <div id="pdf-list" class="space-y-2"></div>
+      <div id="pdf-viewer-container" class="mt-6 hidden">
+        <iframe
+          id="pdf-viewer"
+          class="w-full h-[600px] border rounded-lg"
+          src=""
+        ></iframe>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const pdfListContainer = document.getElementById('pdf-list');
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const pdfViewerContainer = document.getElementById(
+          'pdf-viewer-container'
+        );
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+
+        // PDF 파일 리스트
+        const pdfFiles = [
+          '[1과목]_소프트웨어_설계_정리_요약.pdf',
+          '정보처리기사 필기 요약본.pdf',
+          '정처기_필기_요약.pdf',
+        ];
+
+        pdfFiles.forEach((pdf) => {
+          const button = document.createElement('button');
+          button.textContent = pdf;
+          button.className =
+            'block w-full bg-blue-500 dark:bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition';
+          button.addEventListener('click', () => {
+            const viewerURL = `${
+              window.location.origin
+            }/pdfjs/web/viewer.html?file=${
+              window.location.origin
+            }/pdfs/${encodeURIComponent(pdf)}`;
+            pdfViewer.src = viewerURL;
+
+            pdfViewerContainer.classList.remove('hidden');
+          });
+          pdfListContainer.appendChild(button);
+        });
+
+        // 시스템 다크 모드 감지 및 적용
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.classList.add('dark');
+        }
+
+        // 다크 모드 토글 기능
+        darkModeToggle.addEventListener('click', () => {
+          document.documentElement.classList.toggle('dark');
+          const isDark = document.documentElement.classList.contains('dark');
+          darkModeToggle.textContent = isDark ? '☀️' : '🌙';
+        });
+      });
+    </script>
+  </body>
+</html>
