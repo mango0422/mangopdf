@@ -59,7 +59,7 @@
           button.className =
             'block w-full bg-blue-500 dark:bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition';
           button.addEventListener('click', () => {
-            const viewerURL = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${
+            const viewerURL = `${window.location.origin}/viewer.html?file=${
               window.location.origin
             }/pdfs/${encodeURIComponent(pdf)}`;
             pdfViewer.src = viewerURL;
